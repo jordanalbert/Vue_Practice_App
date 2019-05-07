@@ -1,0 +1,92 @@
+<!<!DOCTYPE html>
+<html>
+
+  <head>
+    <title>Vue 101</title>
+  </head>
+
+  <body>
+
+    <div id="app">
+      <awesome-button></awesome-button>
+      <hr>
+      <game-card v-for="game in games" :game-data="game" :key="game.name"></game-card>
+
+
+
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script>
+
+      Vue.component('awesome-button', {
+        template: `<button @click="clickHandler">Click me for some awesomeness</button>`,
+        methods: {
+          clickHandler() {
+            alert('YAAAS 😎');
+          }
+        }
+      });
+
+
+
+      Vue.component('game-card', {
+        props: ['gameData'],
+        data() {
+          return {
+            game: {...this.gameData},
+            message: ''
+          }
+        },
+        template: `
+          <div style="border-radius: .25rem; border: 1px solid #ECECEC; width: 700px; margin: 1rem; padding: 1rem;">
+            <h2>{{ game.name }} - <small>{{ game.console }}</small></h2>
+
+            <span v-for="heart in game.rating">❤️</span>
+            <br>
+            <br>
+
+            <button @click="increaseRating">Increase Rating</button>
+            <br>
+            <br>
+            <br>
+            <hr>
+            <br>
+            <br>
+
+            <textarea class="textarea" placeholder="Add a review..." v-model="message" rows="8" cols="80"></textarea>
+            <br>
+            Review: {{ message }}
+            <br>
+            <br>
+
+          </div>`,
+        methods: {
+          increaseRating() {
+            this.game.rating++
+          }
+        }
+      });
+
+
+
+      const app = new Vue({
+        el: '#app',
+        data: {
+          games: [
+            { name: 'The Legend of Zelda: Breath of the Wild', console: 'Nintendo Switch', rating: 20 },
+            { name: 'Super Smash Bros.', console: 'Nintendo Switch', rating: 6 },
+            { name: 'Mortal Kombat X', console: 'Xbox One', rating: 8 },
+            { name: 'Burger Time', console: 'Old People Console', rating: 10 },
+            { name: 'Tetris', console: 'Multiple', rating: 5 }
+          ]
+        }
+
+
+
+      });
+    </script>
+  </body>
+</html>
